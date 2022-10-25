@@ -48,11 +48,12 @@ include { INPUT_CHECK } from '../subworkflows/local/input_check'
 //
 // MODULE: Installed directly from nf-core/modules
 //
-include { FASTQC                      } from '../modules/nf-core/fastqc/main'
-include { MULTIQC                     } from '../modules/nf-core/multiqc/main'
-include { SOURMASH_SKETCH             } from '../modules/nf-core/sourmash/sketch/main'
-include { SOURMASH_GATHER             } from '../modules/nf-core/sourmash/gather/main'
-include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
+include { FASTQC                       } from '../modules/nf-core/fastqc/main'
+include { MULTIQC                      } from '../modules/nf-core/multiqc/main'
+include { DOWNLOAD_SOURMASH_GATHER_DBS } from '../modules/local/download_sourmash_gather_dbs'
+include { SOURMASH_SKETCH              } from '../modules/nf-core/sourmash/sketch/main'
+include { SOURMASH_GATHER              } from '../modules/nf-core/sourmash/gather/main'
+include { CUSTOM_DUMPSOFTWAREVERSIONS  } from '../modules/nf-core/custom/dumpsoftwareversions/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -118,6 +119,26 @@ workflow SEQQC {
         INPUT_CHECK.out.reads
     )
     ch_versions = ch_versions.mix(SOURMASH_SKETCH.out.versions)
+
+    //
+    // MODULE: download sourmash gather databases
+    //
+    DOWNLOAD_SOURMASH_GATHER_DBS ()
+    ch_versions = ch_versions.mix(DOWNLOAD_SOURMASH_GATHER_DBS.out.versions) 
+
+    //
+    // MODULE: sourmash gather
+    //
+    ch_sourmash_gather_dbs = concat(DOWNLOAD_SOURMASH_GATHER_DBS.out.zips, DOWNLOAD_SOURMASH_GATHER_DBS.out.sig)
+    SOURMASH_GATHER (
+        SOURMASH_SKETCH.out.signatures,
+        ch_sourmash_gather_dbs,
+        '', // val save_unassigned
+        '', // val save_matches_sig
+        '', // val save_prefetch
+        ''  // val save_prefetch_csv
+    )
+    ch_versions = ch_versions.mix(SOURMASH_GATHER.out.versions)
 }
 
 /*
