@@ -129,14 +129,14 @@ workflow SEQQC {
     //
     // MODULE: sourmash gather
     //
-    ch_sourmash_gather_dbs = concat(DOWNLOAD_SOURMASH_GATHER_DBS.out.zips, DOWNLOAD_SOURMASH_GATHER_DBS.out.sig)
+    // ch_sourmash_gather_dbs = DOWNLOAD_SOURMASH_GATHER_DBS.out.sig
     SOURMASH_GATHER (
         SOURMASH_SKETCH.out.signatures,
-        ch_sourmash_gather_dbs,
-        '', // val save_unassigned
-        '', // val save_matches_sig
-        '', // val save_prefetch
-        ''  // val save_prefetch_csv
+        DOWNLOAD_SOURMASH_GATHER_DBS.out.sig,
+        [], // val save_unassigned
+        [], // val save_matches_sig
+        [], // val save_prefetch
+        []  // val save_prefetch_csv
     )
     ch_versions = ch_versions.mix(SOURMASH_GATHER.out.versions)
 }
