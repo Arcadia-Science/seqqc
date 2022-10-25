@@ -50,6 +50,8 @@ include { INPUT_CHECK } from '../subworkflows/local/input_check'
 //
 include { FASTQC                      } from '../modules/nf-core/fastqc/main'
 include { MULTIQC                     } from '../modules/nf-core/multiqc/main'
+include { SOURMASH_SKETCH             } from '../modules/nf-core/sourmash/sketch/main'
+include { SOURMASH_GATHER             } from '../modules/nf-core/sourmash/gather/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
 
 /*
@@ -108,6 +110,14 @@ workflow SEQQC {
     )
     multiqc_report = MULTIQC.out.report.toList()
     ch_versions    = ch_versions.mix(MULTIQC.out.versions)
+
+    // 
+    // MODULE: sourmash sketch
+    //
+    SOURMASH_SKETCH (
+        INPUT_CHECK.out.reads
+    )
+    ch_versions = ch_versions.mix(SOURMASH_SKETCH.out.versions)
 }
 
 /*
