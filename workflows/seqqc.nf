@@ -129,10 +129,10 @@ workflow SEQQC {
     //
     // MODULE: sourmash gather
     //
-    // ch_sourmash_gather_dbs = DOWNLOAD_SOURMASH_GATHER_DBS.out.sig
+    DOWNLOAD_SOURMASH_GATHER_DBS.out.zips.concat(DOWNLOAD_SOURMASH_GATHER_DBS.out.sig).set { ch_sourmash_gather_dbs } // create new channel combining two download sourmash gather dbs outputs
     SOURMASH_GATHER (
         SOURMASH_SKETCH.out.signatures,
-        DOWNLOAD_SOURMASH_GATHER_DBS.out.sig,
+        ch_sourmash_gather_dbs,
         [], // val save_unassigned
         [], // val save_matches_sig
         [], // val save_prefetch
