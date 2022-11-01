@@ -10,7 +10,6 @@ class WorkflowSeqqc {
     // Check and validate parameters
     //
     public static void initialise(params, log) {
-        
 
     }
 

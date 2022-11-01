@@ -11,7 +11,7 @@ process DOWNLOAD_SOURMASH_GATHER_DBS {
 
     output:
     path '*.zip'       , emit: zips // GTDB database
-    path '*.sig'       , emit: sig  // human siganture 
+    path '*.sig'       , emit: sig  // human siganture
     path "versions.yml", emit: versions
 
     script: //
@@ -20,7 +20,7 @@ process DOWNLOAD_SOURMASH_GATHER_DBS {
     wget -O gtdb-rs207.genomic-reps.dna.k21.zip https://osf.io/f2wzc/download
     # download human signature
     wget -O GCF_000001405.39_GRCh38.p13_genomic.sig https://osf.io/fxup3/download
-    
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         wget: \$(wget --version | grep '^GNU' | sed 's/GNU Wget //' | sed 's/ .*//')
