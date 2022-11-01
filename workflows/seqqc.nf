@@ -53,6 +53,7 @@ include { MULTIQC                      } from '../modules/nf-core/multiqc/main'
 include { DOWNLOAD_SOURMASH_GATHER_DBS } from '../modules/local/download_sourmash_gather_dbs'
 include { SOURMASH_SKETCH              } from '../modules/nf-core/sourmash/sketch/main'
 include { SOURMASH_GATHER              } from '../modules/nf-core/sourmash/gather/main'
+include { SOURMASH_COMPARE             } from '../modules/nf-core/sourmash/compare/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS  } from '../modules/nf-core/custom/dumpsoftwareversions/main'
 
 /*
@@ -124,8 +125,7 @@ workflow SEQQC {
     // MODULE: download sourmash gather databases
     //
     DOWNLOAD_SOURMASH_GATHER_DBS ()
-    ch_versions = ch_versions.mix(DOWNLOAD_SOURMASH_GATHER_DBS.out.versions) 
-
+    ch_versions = ch_versions.mix(DOWNLOAD_SOURMASH_GATHER_DBS.out.versions)
 
     //
     // MODULE: sourmash gather
@@ -140,6 +140,27 @@ workflow SEQQC {
         []  // val save_prefetch_csv
     )
     ch_versions = ch_versions.mix(SOURMASH_GATHER.out.versions)
+ 
+    //
+    // MODULE: sourmash compare
+    //
+
+    // the sourmash compare module takes a meta map so that different groups can be specified
+    ch_sketch_for_compare = SOURMASH_SKETCH.out.signatures
+        .collect{ it[1] }
+        .map { 
+            signatures ->
+                def meta = [:]
+                meta.id  = "k21"
+                [ meta, signatures ]
+    }
+    
+    SOURMASH_COMPARE (
+        ch_sketch_for_compare,
+        [],   // path to file list for --from-file
+        true, // save_numpy_matrix
+        true  // save_csv
+    )
 }
 
 /*
