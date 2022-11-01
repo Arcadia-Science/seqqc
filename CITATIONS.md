@@ -15,6 +15,9 @@
 - [MultiQC](https://pubmed.ncbi.nlm.nih.gov/27312411/)
   > Ewels P, Magnusson M, Lundin S, Käller M. MultiQC: summarize analysis results for multiple tools and samples in a single report. Bioinformatics. 2016 Oct 1;32(19):3047-8. doi: 10.1093/bioinformatics/btw354. Epub 2016 Jun 16. PubMed PMID: 27312411; PubMed Central PMCID: PMC5039924.
 
+- [Sourmash](https://joss.theoj.org/papers/10.21105/joss.00027)
+  > Brown CT, Irber L. Sourmash: a library for MinHash sketching of DNA. Journal of Open Source Software. 2016; 1(5):27. doi: 10.21105/joss.00027.
+
 ## Software packaging/containerisation tools
 
 - [Anaconda](https://anaconda.com)
