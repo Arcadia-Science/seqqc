@@ -16,6 +16,18 @@
                     "multiqc": {
                         "branch": "master",
                         "git_sha": "5e34754d42cd2d5d248ca8673c0a53cdf5624905"
+                    },
+                    "sourmash/compare": {
+                        "branch": "master",
+                        "git_sha": "e7973d4c5a4ca386717fc71178f3b78af196a470"
+                    },
+                    "sourmash/gather": {
+                        "branch": "master",
+                        "git_sha": "6879511dca37de3835867e2ee0f61cfcdbe376f2"
+                    },
+                    "sourmash/sketch": {
+                        "branch": "master",
+                        "git_sha": "80650e386f6cdf4292a4f30615a5a7ac131ae9d9"
                     }
                 }
             }
