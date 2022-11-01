@@ -13,7 +13,7 @@ On release, automated continuous integration tests run the pipeline on a full-si
 
 1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
 2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
-3. Contamination detection using the [GTDB database](https://gtdb.ecogenomic.org/) and the human genome ([`sourmash`](https://sourmash.readthedocs.io))
+3. Contamination detection ([`sourmash`](https://sourmash.readthedocs.io))
 
 ## Quick Start
 
