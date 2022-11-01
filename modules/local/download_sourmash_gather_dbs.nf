@@ -17,7 +17,8 @@ process DOWNLOAD_SOURMASH_GATHER_DBS {
     script: //
     """
     # download GTDB reps data base
-    wget -O gtdb-rs207.genomic-reps.dna.k21.zip https://osf.io/f2wzc/download
+    # wget -O gtdb-rs207.genomic-reps.dna.k21.zip https://osf.io/f2wzc/download
+    touch gtdb-rs207.genomic-reps.dna.k21.zip
     # download human signature
     wget -O GCF_000001405.39_GRCh38.p13_genomic.sig https://osf.io/fxup3/download
     
