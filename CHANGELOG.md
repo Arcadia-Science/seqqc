@@ -9,16 +9,16 @@ Initial release of Arcadia-Science/seqqc, created with the [nf-core](https://nf-
 
 ### `Added`
 
-* Local module to download sourmash GTDB database and human signature
-* Workflow to run sourmash gather to detect routine contamination
- 
+- Local module to download sourmash GTDB database and human signature
+- Workflow to run sourmash gather to detect routine contamination
+
 ### `Fixed`
 
 ### `Dependencies`
 
-* `fastqc=0.11.9`
-* `multiqc=1.13`
-* `sourmash=4.5.0`
-* `wget=1.20.1`
+- `fastqc=0.11.9`
+- `multiqc=1.13`
+- `sourmash=4.5.0`
+- `wget=1.20.1`
 
 ### `Deprecated`
