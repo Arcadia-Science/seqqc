@@ -10,16 +10,13 @@ process DOWNLOAD_SOURMASH_GATHER_DBS {
     input:
 
     output:
-    path '*.zip'       , emit: zips // GTDB database
-    path '*.sig'       , emit: sig  // human siganture
+    path '*.zip'       , emit: zips // contam db
     path "versions.yml", emit: versions
 
     script: //
     """
-    # download GTDB reps data base
-    wget -O gtdb-rs207.genomic-reps.dna.k21.zip https://osf.io/f2wzc/download
-    # download human signature
-    wget -O GCF_000001405.39_GRCh38.p13_genomic.sig https://osf.io/fxup3/download
+    # download contam db built by Arcadia-Science/seqqc-build-contam-db
+    wget -O contamdb.dna.k21.zip https://osf.io/ma8cf/download 
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
