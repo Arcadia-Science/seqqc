@@ -16,7 +16,7 @@ process DOWNLOAD_SOURMASH_GATHER_DBS {
     script: //
     """
     # download contam db built by Arcadia-Science/seqqc-build-contam-db
-    wget -O contamdb.dna.k21.zip https://osf.io/ma8cf/download 
+    wget -O contamdb.dna.k21.zip https://osf.io/ma8cf/download
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
