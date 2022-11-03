@@ -11,6 +11,7 @@ Initial release of Arcadia-Science/seqqc, created with the [nf-core](https://nf-
 
 - Local module to download sourmash GTDB database and human signature
 - Workflow to run sourmash gather to detect routine contamination
+- Workflow to run sourmash compare to determine sequence similarity between samples
 
 ### `Fixed`
 
