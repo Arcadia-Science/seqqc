@@ -1,10 +1,24 @@
 process MULTIQC {
     label 'process_single'
 
+    /*
+    // Eventually, the multiqc sourmash modules will be a part of multiqc
+    // (instead of open PRs), so we'll revert back to this container code when 
+    // possible. We're leaving it below because we plan to revert back to this
+    // as soon as possible. For that same reason, we have left the multiqc
+    // module in the modules/nf-core/ location for now so we don't have to 
+    // reconfigure the rest of the workflow for this temporary change.
+    // In the meantime, we built a docker container that contains multiqc pip 
+    // installed from a branch with the sourmash modules implemented. 
+    // See https://github.com/Arcadia-Science/seqqc/issues/15. 
+    
     conda (params.enable_conda ? 'bioconda::multiqc=1.13' : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/multiqc:1.13--pyhdfd78af_0' :
         'quay.io/biocontainers/multiqc:1.13--pyhdfd78af_0' }"
+    */
+    container "${ workflow.containerEngine == 'docker' ? 'taylorreiter/20221209-multiqc-sourmash:b8ea142':
+        '' }"
 
     input:
     path  multiqc_files, stageAs: "?/*"
