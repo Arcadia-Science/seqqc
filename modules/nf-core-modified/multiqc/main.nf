@@ -17,11 +17,14 @@ process MULTIQC {
         'https://depot.galaxyproject.org/singularity/multiqc:1.13--pyhdfd78af_0' :
         'quay.io/biocontainers/multiqc:1.13--pyhdfd78af_0' }"
     */
-    container "${ workflow.containerEngine == 'docker' ? 'taylorreiter/20221209-multiqc-sourmash:b8ea142':
+    container "${ workflow.containerEngine == 'docker' ? 'taylorreiter/20221212-multiqc-sourmash:47808ae':
         '' }"
 
     input:
-    path  multiqc_files, stageAs: "?/*"
+    // I changed the "stageAs:" option from ?/* to * to allow for the sourmash 
+    // compare output files to be staged together, which is necessary for 
+    // multiqc to find and parse them both
+    path  multiqc_files, stageAs: "*"
     path(multiqc_config)
     path(extra_multiqc_config)
     path(multiqc_logo)
