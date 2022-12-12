@@ -102,7 +102,7 @@ This repo includes a devcontainer configuration which will create a GitHub Codes
 
 To get started:
 
-- Open the repo in [Codespaces](https://github.com/nf-core/rnaseq/codespaces)
+- Open the repo in [Codespaces](https://github.com/Arcadia-Science/seqqc/codespaces)
 - Tools installed
   - nf-core
   - Nextflow
