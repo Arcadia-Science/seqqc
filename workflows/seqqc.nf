@@ -58,8 +58,8 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS  } from '../modules/nf-core/custom/dumpsof
 
 //
 // MODULE: Modified from nf-core/modules
-include { SOURMASH_GATHER              } from '../modules/nf-core-modified/sourmash/gather/main'
-include { MULTIQC                      } from '../modules/nf-core-modified/multiqc/main'
+include { SOURMASH_GATHER              } from '../modules/local/nf-core-modified/sourmash/gather/main'
+include { MULTIQC                      } from '../modules/local/nf-core-modified/multiqc/main'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
