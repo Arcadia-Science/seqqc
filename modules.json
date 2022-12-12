@@ -8,30 +8,22 @@
                     "custom/dumpsoftwareversions": {
                         "branch": "master",
                         "git_sha": "5e34754d42cd2d5d248ca8673c0a53cdf5624905",
-                        "installed_by": [
-                            "modules"
-                        ]
+                        "installed_by": ["modules"]
                     },
                     "fastqc": {
                         "branch": "master",
                         "git_sha": "5e34754d42cd2d5d248ca8673c0a53cdf5624905",
-                        "installed_by": [
-                            "modules"
-                        ]
+                        "installed_by": ["modules"]
                     },
                     "sourmash/compare": {
                         "branch": "master",
                         "git_sha": "e7973d4c5a4ca386717fc71178f3b78af196a470",
-                        "installed_by": [
-                            "modules"
-                        ]
+                        "installed_by": ["modules"]
                     },
                     "sourmash/sketch": {
                         "branch": "master",
                         "git_sha": "80650e386f6cdf4292a4f30615a5a7ac131ae9d9",
-                        "installed_by": [
-                            "modules"
-                        ]
+                        "installed_by": ["modules"]
                     }
                 }
             }
