@@ -9,7 +9,7 @@ process MULTIQC {
     // In the meantime, we built a docker container that contains multiqc pip
     // installed from a branch with the sourmash modules implemented.
     // See https://github.com/Arcadia-Science/seqqc/issues/15.
-    
+
     conda (params.enable_conda ? 'bioconda::multiqc=1.13' : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/multiqc:1.13--pyhdfd78af_0' :
