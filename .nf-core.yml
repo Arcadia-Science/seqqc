@@ -18,3 +18,4 @@ lint:
     - nextflow_badge
   files_unchanged:
     - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .prettierignore
