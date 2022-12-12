@@ -5,9 +5,7 @@ process MULTIQC {
     // Eventually, the multiqc sourmash modules will be a part of multiqc
     // (instead of open PRs), so we'll revert back to this container code when 
     // possible. We're leaving it below because we plan to revert back to this
-    // as soon as possible. For that same reason, we have left the multiqc
-    // module in the modules/nf-core/ location for now so we don't have to 
-    // reconfigure the rest of the workflow for this temporary change.
+    // as soon as possible.
     // In the meantime, we built a docker container that contains multiqc pip 
     // installed from a branch with the sourmash modules implemented. 
     // See https://github.com/Arcadia-Science/seqqc/issues/15. 
