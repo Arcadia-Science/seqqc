@@ -20,3 +20,4 @@ lint:
     - .github/ISSUE_TEMPLATE/bug_report.yml
     - .prettierignore
     - .github/CONTRIBUTING.md
+    - lib/NfcoreTemplate.groovy
