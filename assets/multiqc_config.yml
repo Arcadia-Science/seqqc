@@ -58,7 +58,7 @@ section_comments:
     A low percentage of Ns biased toward the beginnig or end of a read is normal.
     If many reads have Ns at a specific position, especially in the middle of the read, this could have been caused by a bubble obscuring the camera during sequencing.
     Excessive Ns caused by technical reasons like that may warrant re-sequencing by the sequencing facility.
-    However if a sample was sequenced deeply enough, it may not be necessary to re-sequence to get quality results from your analysis.  
+    However if a sample was sequenced deeply enough, it may not be necessary to re-sequence to get quality results from your analysis.
   fastqc_sequence_length_distribution: >
     This module reports on the sequence length of samples in your library.
     For raw Illumina sequences, all samples should have the same length.
@@ -66,7 +66,7 @@ section_comments:
     Long reads will have variable sequence lengths.
   fastqc_sequence_duplication_levels: >
     In a diverse library most sequences will occur only once in the final set. 
-    A low level of duplication may indicate a very high level of coverage of the target sequence, but a high level of duplication is more likely to indicate some kind of enrichment bias (eg PCR over amplification). 
+    A low level of duplication may indicate a very high level of coverage of the target sequence, but a high level of duplication is more likely to indicate some kind of enrichment bias (eg PCR over amplification).
   fastqc_overrepresented_sequences: >
     A normal high-throughput library will contain a diverse set of sequences, with no individual sequence making up a tiny fraction of the whole. 
     Finding that a single sequence is very overrepresented in the set either means that it is highly biologically significant, or indicates that the library is contaminated, or not as diverse as you expected.
@@ -77,7 +77,7 @@ section_comments:
     This module reports the presence of adapters and the position in which the adapter was detected in the read.
     It is normal for raw reads to fail this module.
     Adapters are typically removed by during read trimming.
-  sourmash-compare-1: > 
+  sourmash-compare-1: >
     Sourmash compare estimates sample similarity using angular similarity. 
     Angular similarity takes both shared sequence content and sequence abundance information into account when estimating similarity.
     Shared sequence content is measured using the intersection over the union of k-mers (<i>k</i> = 21) in each sample.
