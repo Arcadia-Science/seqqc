@@ -38,6 +38,7 @@ section_comments:
     The X axis corresponds to the base pair position in the read.
     Phred score profiles are usually worse at the beginning and end of reads, but quality typically drops smoothly toward the end of the read (as opposed to suddenly at one position).
     It's common for newer Illumina chemistries to maintain high (>30 or 35) Phred scores across the entire read.
+    Nanopore reads typically have lower Phred scores.
     Across all samples in a given experiment, one would expect to see roughly consistent quality scores.
   fastqc_per_sequence_quality_scores: >
     This module shows an alternate visualization of sequence quality scores, counting the number of reads that have specific average quality scores.
