@@ -16,7 +16,8 @@ process SOURMASH_GATHER {
     val save_prefetch_csv
 
     output:
-    tuple val(meta), path('*.csv.gz')             , optional:true, emit: result
+    // the "result" output was modified from the nf-core module to .csv from .csv.gz
+    tuple val(meta), path('*.csv')             , optional:true, emit: result
     tuple val(meta), path('*_unassigned.sig.zip') , optional:true, emit: unassigned
     tuple val(meta), path('*_matches.sig.zip')    , optional:true, emit: matches
     tuple val(meta), path('*_prefetch.sig.zip')   , optional:true, emit: prefetch
