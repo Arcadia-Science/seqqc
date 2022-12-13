@@ -31,10 +31,26 @@ section_comments:
     About 1/1000th of all distinct k-mers are used to estimate similarity.
     Sequence similarity scores range from 0 to 1 and samples that are more similar will have higher value.
     Note that because this module runs on raw sequencing data, sequencing errors will falsely deflate similarity estimates but should still provide relatively good estimates.
-    This module is designed to highlight mislabelled samples or to catch technical artifacts that might lead to outlying replicate samples.
+    <b>This module is designed to highlight mislabelled samples or to catch technical artifacts that might lead to outlying replicate samples.</b>
     Replicates or biologically similar samples should have the highest similarity scores.
     Samples are alphabetically ordered on the X and Y axis of the heatmap, and each square represents the similarity score between the intersecting samples.
     You can run your mouse over each heatmap square to highlight the similarity value.
   gather-topfive: >
-
+    Sourmash gather selects the best reference genomes to use for a metagenome analysis, by finding the smallest set of non-overlapping matches to the query in a database.
+    <b>This module is designed to assess whether a sequencing sample is contaminated.</b>
+    Contamination in sequencing data can come from many different sources. 
+    We describe five types below and how this module was designed to test for each type.
+    For a list of all genomes included in the contamination detection database, see <a href="https://osf.io/jpdte" target="_blank">this CSV.</a> 
+    <ol>
+      <li>Contamination from barcode/index hopping during sequencing. This happens most frequently for low-biomass samples and is an illumina artifact. To catch this type of contamination, we screen for sequences of model organisms that are sequenced frequently, as these will be the sequences that are most likely to occur as contaminants because they are the most likely things to be sequenced at any given time. If we get mouse in our algae RNA seq, it is probably from barcode hopping.</li>
+      <li>Contamination from humans handling the sample. This could be human sequence, or sequence from microbes that live on human skin/oral cavity. We included human DNA and common human skin/oral microbiome species in the contamination database to catch this type of contamination.</li>
+      <li>Kit contamination. Kits and reagents have their own microbiome and so DNA extracted from these organisms can sneak into the sample. We added the most common kit contaminant organisms to the database as described in doi:10.1016/j.tim.2018.11.003.</li>
+      <li>Contamination caused by accidentally extracting DNA or RNA from an organism in the lab other than your own sample. The contamination detection database contains select species commonly used by Arcadians to try and catch this type of contamination.</li>
+      <li>Spike in contamination. Illumina spikes phiX into many of its sequencing runs. We included the phiX spikein sequencing in our contamination detection database.</li>
+    </ol>
+    Note that if your sample naturally contains any of the genomes included in the database, those genomes will appear below as part of the classified fraction of the sample.
+    For example, if we ran a cheese metagenome through this module we might see <i>Staphylococcus epidermidis</i>.
+    <i>S. epidermidis</i> is included in the contamination database because it is a common member of the human skin microbiome, but it is also commonly found in cheese.
+    Therefore, as domain experts, we would know that <i>S. epidermidis</i> detection is likely not a result of sample contamination.
+  fastqc_sequence_counts: >
 export_plots: true
