@@ -1,6 +1,6 @@
 ## Introduction
 
-**Arcadia-Science/seqqc** is a bioinformatics best-practice analysis pipeline for quality control for sequencing data.
+**Arcadia-Science/seqqc** is an analysis pipeline for quality control for sequencing data.
 The pipeline can be used on short or long read sequencing data (in FASTQ format) to identify common problems like the presence of adapters, high sequencing duplication rates, mislabelled samples, and contamination.
 
 The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool to run tasks across multiple compute infrastructures in a very portable manner. It uses Docker/Singularity containers making installation trivial and results highly reproducible. The [Nextflow DSL2](https://www.nextflow.io/docs/latest/dsl2.html) implementation of this pipeline uses one container per process which makes it much easier to maintain and update software dependencies. Where possible, these processes have been submitted to and installed from [nf-core/modules](https://github.com/nf-core/modules) in order to make them available to all nf-core pipelines, and to everyone within the Nextflow community!
@@ -11,10 +11,10 @@ On release, automated continuous integration tests run the pipeline on a full-si
 
 ## Pipeline summary
 
-1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
-2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
-3. Contamination detection ([`sourmash`](https://sourmash.readthedocs.io))
-4. Sample sequence similarity measurement ([`sourmash`](https://sourmash.readthedocs.io))
+1. Raw read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
+2. Contamination detection ([`sourmash`](https://sourmash.readthedocs.io))
+3. Sample sequence similarity measurement ([`sourmash`](https://sourmash.readthedocs.io))
+4. Present pipeline results ([`MultiQC`](http://multiqc.info/))
 
 ## Quick Start
 
@@ -54,14 +54,6 @@ If you would like to contribute to this pipeline, please see the [contributing g
 <!-- TODO nf-core: Add citation for pipeline after first release. Uncomment lines below and update Zenodo doi and badge at the top of this file. -->
 <!-- If you use  Arcadia-Science/seqqc for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
 
-<!-- TODO nf-core: Add bibliography of tools and data used in your pipeline -->
-
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
 This pipeline uses code and infrastructure developed and maintained by the [nf-core](https://nf-co.re) community, reused here under the [MIT license](https://github.com/nf-core/tools/blob/master/LICENSE).
-
-> **The nf-core framework for community-curated bioinformatics pipelines.**
->
-> Philip Ewels, Alexander Peltzer, Sven Fillinger, Harshil Patel, Johannes Alneberg, Andreas Wilm, Maxime Ulysse Garcia, Paolo Di Tommaso & Sven Nahnsen.
->
-> _Nat Biotechnol._ 2020 Feb 13. doi: [10.1038/s41587-020-0439-x](https://dx.doi.org/10.1038/s41587-020-0439-x).
