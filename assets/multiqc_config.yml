@@ -80,7 +80,7 @@ section_comments:
     It is normal for raw reads to fail this module.
     Adapters are typically removed by during read trimming.
   sourmash-compare-1: >
-    Sourmash compare estimates sample similarity using angular similarity. 
+    <code>sourmash compare</code> estimates sample similarity using angular similarity. 
     Angular similarity takes both shared sequence content and sequence abundance information into account when estimating similarity.
     Shared sequence content is measured using the intersection over the union of k-mers (<i>k</i> = 21) in each sample.
     About 1/1000th of all distinct k-mers are used to estimate similarity.
@@ -91,7 +91,7 @@ section_comments:
     Samples are alphabetically ordered on the X and Y axis of the heatmap, and each square represents the similarity score between the intersecting samples.
     You can run your mouse over each heatmap square to highlight the similarity value.
   gather-topfive: >
-    Sourmash gather finds the best genomes in a database that are contained within a sequencing sample.
+    <code>sourmash gather</code> finds the best genomes in a database that are contained within a sequencing sample.
     <b>This module is designed to assess whether a sequencing sample is contaminated.</b>
     Contamination in sequencing data can come from many different sources. 
     We describe five types below and how this module was designed to test for each type.
