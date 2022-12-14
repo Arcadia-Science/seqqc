@@ -38,7 +38,7 @@ process SOURMASH_GATHER {
     """
     sourmash gather \\
         $args \\
-        --output ${prefix}.csv.gz \\
+        --output ${prefix}.csv \\
         ${unassigned} \\
         ${matches} \\
         ${prefetch} \\
