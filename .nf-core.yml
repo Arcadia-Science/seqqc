@@ -21,3 +21,4 @@ lint:
     - .prettierignore
     - .github/CONTRIBUTING.md
     - lib/NfcoreTemplate.groovy
+    - assets/email_template.html
