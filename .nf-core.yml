@@ -1,17 +1,24 @@
 repository_type: pipeline
 lint:
   files_exist:
-  - CODE_OF_CONDUCT.md
-  - assets/nf-core-seqqc_logo_light.png
-  - docs/images/nf-core-seqqc_logo_light.png
-  - docs/images/nf-core-seqqc_logo_dark.png
-  - .github/ISSUE_TEMPLATE/config.yml
-  - .github/workflows/awstest.yml
-  - .github/workflows/awsfulltest.yml
+    - CODE_OF_CONDUCT.md
+    - assets/nf-core-seqqc_logo_light.png
+    - docs/images/nf-core-seqqc_logo_light.png
+    - docs/images/nf-core-seqqc_logo_dark.png
+    - .github/ISSUE_TEMPLATE/config.yml
+    - .github/workflows/awstest.yml
+    - .github/workflows/awsfulltest.yml
+    - conf/igenomes.config
   nextflow_config:
-  - manifest.name
-  - manifest.homePage
+    - manifest.name
+    - manifest.homePage
   multiqc_config:
-  - report_comment
+    - report_comment
   readme:
-  - nextflow_badge
+    - nextflow_badge
+  files_unchanged:
+    - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .prettierignore
+    - .github/CONTRIBUTING.md
+    - lib/NfcoreTemplate.groovy
+    - assets/email_template.html

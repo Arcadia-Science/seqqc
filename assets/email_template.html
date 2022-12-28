@@ -10,8 +10,6 @@
 <body>
 <div style="font-family: Helvetica, Arial, sans-serif; padding: 30px; max-width: 800px; margin: 0 auto;">
 
-<img src="cid:nfcorepipelinelogo">
-
 <h1>Arcadia-Science/seqqc v${version}</h1>
 <h2>Run Name: $runName</h2>
 
@@ -27,7 +25,9 @@
 } else {
     out << """
     <div style="color: #3c763d; background-color: #dff0d8; border-color: #d6e9c6; padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px;">
-        Arcadia-Science/seqqc execution completed successfully!
+        <h4>Arcadia-Science/seqqc execution completed successfully!</h4>
+        <p>Please see the attached MultiQC HTML report. It can be opened in any web browser.</p>
+        <p>Each section in the MultiQC report contains documentation for interpretation. Please see the file for more information.</p>
     </div>
     """
 }
