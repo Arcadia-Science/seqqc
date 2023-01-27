@@ -10,11 +10,6 @@
                         "git_sha": "5e34754d42cd2d5d248ca8673c0a53cdf5624905",
                         "installed_by": ["modules"]
                     },
-                    "fastqc": {
-                        "branch": "master",
-                        "git_sha": "5e34754d42cd2d5d248ca8673c0a53cdf5624905",
-                        "installed_by": ["modules"]
-                    },
                     "sourmash/compare": {
                         "branch": "master",
                         "git_sha": "e7973d4c5a4ca386717fc71178f3b78af196a470",
