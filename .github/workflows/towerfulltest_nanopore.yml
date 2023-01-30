@@ -1,4 +1,4 @@
-name: Tower AWS full size tests HiFi
+name: Tower AWS full size tests Nanopore
 # This workflow is triggered on published releases.
 # It can be additionally triggered manually with GitHub actions workflow dispatch button.
 # It runs the -profile 'test_full_hifi' on AWS batch via Tower
@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 jobs:
   run-tower:
-    name: Run AWS full tests HiFi
+    name: Run AWS full tests Nanopore
     if: github.repository == 'Arcadia-Science/seqqc'
     runs-on: ubuntu-latest
     steps:
@@ -22,6 +22,6 @@ jobs:
           workdir: s3://${{ secrets.AWS_S3_BUCKET }}/work/seqqc/work-${{ github.sha }}
           parameters: |
             {
-              "outdir" : "s3://${{ secrets.AWS_S3_BUCKET }}/fulltests/results-${{ github.sha }}/hifi"
+              "outdir" : "s3://${{ secrets.AWS_S3_BUCKET }}/fulltests/results-${{ github.sha }}/nanopore"
             }
-          profiles: test_full_hifi,aws_tower
+          profiles: test_full_nanopore,aws_tower
