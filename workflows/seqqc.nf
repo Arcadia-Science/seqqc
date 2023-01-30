@@ -51,13 +51,13 @@ include { DOWNLOAD_SOURMASH_GATHER_DBS } from '../modules/local/download_sourmas
 //
 // MODULE: Installed directly from nf-core/modules
 //
+include { FASTQC                       } from '../modules/nf-core/fastqc/main'
 include { SOURMASH_SKETCH              } from '../modules/nf-core/sourmash/sketch/main'
 include { SOURMASH_COMPARE             } from '../modules/nf-core/sourmash/compare/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS  } from '../modules/nf-core/custom/dumpsoftwareversions/main'
 
 //
 // MODULE: Modified from nf-core/modules
-include { FASTQC                       } from '../modules/local/nf-core-modified/fastqc/main'
 include { SOURMASH_GATHER              } from '../modules/local/nf-core-modified/sourmash/gather/main'
 include { MULTIQC                      } from '../modules/local/nf-core-modified/multiqc/main'
 /*
