@@ -17,6 +17,8 @@ On release, automated continuous integration tests run the pipeline on full-size
 
 ## Pipeline summary
 
+![](https://i.imgur.com/ydFlJfa.jpg)
+
 1. Raw read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
 2. Contamination detection ([`sourmash`](https://sourmash.readthedocs.io))
 3. Sample sequence similarity measurement ([`sourmash`](https://sourmash.readthedocs.io))
