@@ -2,7 +2,7 @@ process DOWNLOAD_SOURMASH_GATHER_DBS {
     tag "gatherdb"
     label 'process_single'
 
-    conda (params.enable_conda ? "anaconda::wget=1.20.1" : null)
+    conda "conda-forge::wget=1.20.1"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/wget:1.20.1' :
         'quay.io/biocontainers/wget:1.20.1' }"
