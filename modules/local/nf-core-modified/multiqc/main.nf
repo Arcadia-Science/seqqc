@@ -15,6 +15,7 @@ process MULTIQC {
         'https://depot.galaxyproject.org/singularity/multiqc:1.13--pyhdfd78af_0' :
         'quay.io/biocontainers/multiqc:1.13--pyhdfd78af_0' }"
     */
+    conda "bioconda::multiqc=1.14" // This will not produce reports for the sourmash outputs as sourmash is not in the main branch of multiqc yet
     container "${ workflow.containerEngine == 'docker' ? 'taylorreiter/20221212-multiqc-sourmash:47808ae':
         '' }"
 
