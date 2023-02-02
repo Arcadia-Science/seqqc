@@ -16,8 +16,9 @@ process MULTIQC {
         'quay.io/biocontainers/multiqc:1.13--pyhdfd78af_0' }"
     */
     conda "bioconda::multiqc=1.14" // This will not produce reports for the sourmash outputs as sourmash is not in the main branch of multiqc yet
-    container "${ workflow.containerEngine == 'docker' ? 'taylorreiter/20221212-multiqc-sourmash:47808ae':
-        '' }"
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/multiqc:1.14--pyhdfd78af_0' :
+        'taylorreiter/20221212-multiqc-sourmash:47808ae' }"
 
     input:
     // I changed the "stageAs:" option from ?/* to * to allow for the sourmash
