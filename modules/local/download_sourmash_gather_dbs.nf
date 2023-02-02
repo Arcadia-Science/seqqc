@@ -3,9 +3,10 @@ process DOWNLOAD_SOURMASH_GATHER_DBS {
     label 'process_single'
 
     conda "conda-forge::wget=1.20.1"
+    conda "bioconda::gnu-wget=1.18"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/wget:1.20.1' :
-        'quay.io/biocontainers/wget:1.20.1' }"
+        'https://depot.galaxyproject.org/singularity/gnu-wget:1.18--h60da905_7' :
+        'quay.io/biocontainers/gnu-wget:1.18--h60da905_7' }"
 
     input:
 
