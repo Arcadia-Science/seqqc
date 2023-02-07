@@ -24,7 +24,7 @@ Initial release of Arcadia-Science/seqqc, created with the [nf-core](https://nf-
 ### `Dependencies`
 
 - `fastqc=0.11.9`
-- `multiqc=1.14` # currently installed from a dev branch, https://github.com/taylorreiter/MultiQC/tree/ter/add-sourmash-gather commit 47808ae
+- `multiqc=1.14` # currently installed from a [dev branch](https://github.com/taylorreiter/MultiQC/tree/47808aea9b05305e82927ba51f8e266ca0b919c6)
 - `sourmash=4.6.1`
 - `gnu-wget=1.18`
 
