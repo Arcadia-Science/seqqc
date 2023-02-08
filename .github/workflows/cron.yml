@@ -1,0 +1,28 @@
+name: Run Node.js branch_protection script on a schedule
+
+# Run it 12.05AM UTC every day
+on:
+  schedule:
+    - cron: "5 0 * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - name: Install dependencies
+        run: npm install
+      - name: Build the scripts
+        run: npm run build
+      - name: Run script
+        run: npm run runJob
+        env:
+          AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_SOURCE_PREFIX: ${{ secrets.AWS_SOURCE_PREFIX }}
+          NOTIFICATION_EMAIL: ${{ secrets.NOTIFICATION_EMAIL }}
+          TOWER_URL: ${{ secrets.TOWER_URL }}
+          TOWER_TOKEN: ${{ secrets.TOWER_TOKEN }}
