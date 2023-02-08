@@ -56,10 +56,10 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS  } from '../modules/nf-core/custom/dumpsof
 
 //
 // MODULE: Modified from nf-core/modules
-include { SOURMASH_SKETCH              } from '../modules/local/nf-core-modified/sourmash/sketch/main'
-include { SOURMASH_COMPARE             } from '../modules/local/nf-core-modified/sourmash/compare/main'
-include { SOURMASH_GATHER              } from '../modules/local/nf-core-modified/sourmash/gather/main'
-include { MULTIQC                      } from '../modules/local/nf-core-modified/multiqc/main'
+include { SOURMASH_SKETCH              } from '../modules/nf-core-modified/sourmash/sketch/main'
+include { SOURMASH_COMPARE             } from '../modules/nf-core-modified/sourmash/compare/main'
+include { SOURMASH_GATHER              } from '../modules/nf-core-modified/sourmash/gather/main'
+include { MULTIQC                      } from '../modules/nf-core-modified/multiqc/main'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -93,7 +93,7 @@ workflow SEQQC {
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
     )
 
-    // 
+    //
     // MODULE: sourmash sketch
     //
     SOURMASH_SKETCH (
@@ -119,7 +119,7 @@ workflow SEQQC {
         []  // val save_prefetch_csv
     )
     ch_versions = ch_versions.mix(SOURMASH_GATHER.out.versions)
- 
+
     //
     // MODULE: sourmash compare
     //
@@ -127,13 +127,13 @@ workflow SEQQC {
     // the sourmash compare module takes a meta map so that different groups can be specified
     ch_sketch_for_compare = SOURMASH_SKETCH.out.signatures
         .collect{ it[1] }
-        .map { 
+        .map {
             signatures ->
                 def meta = [:]
                 meta.id  = "k21"
                 [ meta, signatures ]
     }
-    
+
     SOURMASH_COMPARE (
         ch_sketch_for_compare,
         [],   // path to file list for --from-file
