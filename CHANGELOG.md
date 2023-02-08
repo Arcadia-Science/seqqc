@@ -18,6 +18,7 @@ Initial release of Arcadia-Science/seqqc, created with the [nf-core](https://nf-
 - MultiQC interpretation documentation
 - Test profiles for different sequencing chemistries
 - Updates to email template
+- Added the cron job that automatically triggers the pipeline runs using GitHub actions, AWS S3, and AWS Batch via Nextflow Tower
 
 ### `Fixed`
 

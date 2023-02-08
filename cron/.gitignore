@@ -1,0 +1,11 @@
+node_modules/
+dist/
+yarn-error.log
+.env
+.env.prod
+.DS_Store
+dump.rdb
+.yarn/
+backup/
+*.zip
+.pnp*
