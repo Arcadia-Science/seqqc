@@ -2,7 +2,7 @@ require("dotenv").config();
 import axios from "axios";
 import { ListObjectsCommand, ListObjectsCommandInput, _Object, S3Client } from "@aws-sdk/client-s3";
 import { GetUserCommand, IAMClient } from "@aws-sdk/client-iam";
-import { combineEmails, startOfYesterdayUTC, startOfTodayUTC } from "./utils";
+import { combineEmails, getOrCreateDirectoryName, startOfYesterdayUTC, startOfTodayUTC } from "./utils";
 
 // AWS credential constants
 const { AWS_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION } = process.env;
@@ -88,7 +88,7 @@ async function launchPipeline(csvKey: string, csvOwnerEmail: string) {
         params: {
             email: combineEmails([NOTIFICATION_EMAIL, csvOwnerEmail]),
             input: `s3://${AWS_BUCKET_NAME}/${csvKey}`,
-            outdir: `s3://${AWS_BUCKET_NAME}/results`,
+            outdir: `s3://${AWS_BUCKET_NAME}/outdir/${getOrCreateDirectoryName(csvKey)}`,
         },
     };
 
