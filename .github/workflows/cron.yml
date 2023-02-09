@@ -1,4 +1,4 @@
-name: Run Node.js branch_protection script on a schedule
+name: Run seqqc-cron job on a schedule
 
 # Run it 12.05AM UTC every day
 on:
@@ -7,8 +7,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  cron:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./cron
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -26,4 +29,4 @@ jobs:
           AWS_SOURCE_PREFIX: ${{ secrets.AWS_SOURCE_PREFIX }}
           NOTIFICATION_EMAIL: ${{ secrets.NOTIFICATION_EMAIL }}
           TOWER_URL: ${{ secrets.TOWER_URL }}
-          TOWER_TOKEN: ${{ secrets.TOWER_TOKEN }}
+          TOWER_ACCESS_TOKEN: ${{ secrets.TOWER_ACCESS_TOKEN }}
