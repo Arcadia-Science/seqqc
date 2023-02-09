@@ -30,7 +30,7 @@ NOTIFICATION_EMAIL=
 
 # Tower constants, see https://help.tower.nf/21.10/pipeline-actions/pipeline-actions/
 TOWER_URL=
-TOWER_TOKEN=
+TOWER_ACCESS_TOKEN=
 ```
 
 Install packages using [npm](https://www.npmjs.com/) v8.19.2 and run using [node](https://nodejs.org/en/) v18.10.0.
