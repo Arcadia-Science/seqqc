@@ -7,13 +7,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  cron:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./cron
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-      - name: Change to the cron directory
-        run: cd cron/
       - name: Install dependencies
         run: npm install
       - name: Build the scripts
