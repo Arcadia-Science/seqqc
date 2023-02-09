@@ -4,7 +4,10 @@
 
 ## Introduction
 
-<!-- TODO nf-core: Add documentation about anything specific to running your pipeline. For general topics, please point to (and add to) the main nf-core website. -->
+The purpose of this pipeline is to rapidly assess the quality of new sequencing data so that you can feel confident depositing it into an [INSDC database]("https://www.insdc.org/") like the [European Nucleotide Archive](https://www.ebi.ac.uk/ena/browser/home) rapidly after data generation.
+The pipeline is designed to report technical sequencing issues via FastQC, sample similarity with sourmash compare, and potential contamination with sourmash gather.
+Because this pipeline is designed to run on any type of raw sequencing data, it is purely descriptive and you will need to rely on a combination of your domain specific expertise and the pipeline results to determine whether there is a quality issue with your sequencing data or not.
+The main output of the pipeline is an HTML report that summarizes each quality control step and provides documentation for how to interpret the results.
 
 ## Samplesheet input
 

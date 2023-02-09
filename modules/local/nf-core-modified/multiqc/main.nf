@@ -1,13 +1,30 @@
 process MULTIQC {
     label 'process_single'
 
+    /*
+    // Eventually, the multiqc sourmash modules will be a part of multiqc
+    // (instead of open PRs), so we'll revert back to this container code when
+    // possible. We're leaving it below because we plan to revert back to this
+    // as soon as possible.
+    // In the meantime, we built a docker container that contains multiqc pip
+    // installed from a branch with the sourmash modules implemented.
+    // See https://github.com/Arcadia-Science/seqqc/issues/15.
+
     conda (params.enable_conda ? 'bioconda::multiqc=1.13' : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/multiqc:1.13--pyhdfd78af_0' :
         'quay.io/biocontainers/multiqc:1.13--pyhdfd78af_0' }"
+    */
+    conda "bioconda::multiqc=1.14" // This will not produce reports for the sourmash outputs as sourmash is not in the main branch of multiqc yet
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/multiqc:1.14--pyhdfd78af_0' :
+        'taylorreiter/20221212-multiqc-sourmash:47808ae' }"
 
     input:
-    path  multiqc_files, stageAs: "?/*"
+    // I changed the "stageAs:" option from ?/* to * to allow for the sourmash
+    // compare output files to be staged together, which is necessary for
+    // multiqc to find and parse them both
+    path  multiqc_files, stageAs: "*"
     path(multiqc_config)
     path(extra_multiqc_config)
     path(multiqc_logo)

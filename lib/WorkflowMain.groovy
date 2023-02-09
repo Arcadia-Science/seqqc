@@ -22,7 +22,7 @@ class WorkflowMain {
     // Print help to screen if required
     //
     public static String help(workflow, params, log) {
-        def command = "nextflow run ${workflow.manifest.name} --input samplesheet.csv --fasta reference.fa -profile docker"
+        def command = "nextflow run ${workflow.manifest.name} --input samplesheet.csv -profile docker"
         def help_string = ''
         help_string += NfcoreTemplate.logo(workflow, params.monochrome_logs)
         help_string += NfcoreSchema.paramsHelp(workflow, params, command)
@@ -66,7 +66,7 @@ class WorkflowMain {
         NfcoreTemplate.checkConfigProvided(workflow, log)
 
         // Check that conda channels are set-up correctly
-        if (params.enable_conda) {
+        if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
             Utils.checkCondaChannels(log)
         }
 

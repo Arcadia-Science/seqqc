@@ -9,9 +9,8 @@ def summary_params = NfcoreSchema.paramsSummaryMap(workflow, params)
 // Validate input parameters
 WorkflowSeqqc.initialise(params, log)
 
-// TODO nf-core: Add all file path parameters for the pipeline to the list below
 // Check input path parameters to see if they exist
-def checkPathParamList = [ params.input, params.multiqc_config, params.fasta ]
+def checkPathParamList = [ params.input, params.multiqc_config ]
 for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
 
 // Check mandatory parameters
@@ -39,6 +38,10 @@ ch_multiqc_custom_methods_description = params.multiqc_methods_description ? fil
 //
 include { INPUT_CHECK } from '../subworkflows/local/input_check'
 
+//
+// MODULE: Local modules
+//
+include { DOWNLOAD_SOURMASH_GATHER_DBS } from '../modules/local/download_sourmash_gather_dbs'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT NF-CORE MODULES/SUBWORKFLOWS
@@ -48,10 +51,15 @@ include { INPUT_CHECK } from '../subworkflows/local/input_check'
 //
 // MODULE: Installed directly from nf-core/modules
 //
-include { FASTQC                      } from '../modules/nf-core/fastqc/main'
-include { MULTIQC                     } from '../modules/nf-core/multiqc/main'
-include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
+include { FASTQC                       } from '../modules/nf-core/fastqc/main'
+include { CUSTOM_DUMPSOFTWAREVERSIONS  } from '../modules/nf-core/custom/dumpsoftwareversions/main'
 
+//
+// MODULE: Modified from nf-core/modules
+include { SOURMASH_SKETCH              } from '../modules/local/nf-core-modified/sourmash/sketch/main'
+include { SOURMASH_COMPARE             } from '../modules/local/nf-core-modified/sourmash/compare/main'
+include { SOURMASH_GATHER              } from '../modules/local/nf-core-modified/sourmash/gather/main'
+include { MULTIQC                      } from '../modules/local/nf-core-modified/multiqc/main'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -85,6 +93,54 @@ workflow SEQQC {
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
     )
 
+    // 
+    // MODULE: sourmash sketch
+    //
+    SOURMASH_SKETCH (
+        INPUT_CHECK.out.reads
+    )
+    ch_versions = ch_versions.mix(SOURMASH_SKETCH.out.versions)
+
+    //
+    // MODULE: download sourmash gather databases
+    //
+    DOWNLOAD_SOURMASH_GATHER_DBS ()
+    ch_versions = ch_versions.mix(DOWNLOAD_SOURMASH_GATHER_DBS.out.versions)
+
+    //
+    // MODULE: sourmash gather
+    //
+    SOURMASH_GATHER (
+        SOURMASH_SKETCH.out.signatures,
+        DOWNLOAD_SOURMASH_GATHER_DBS.out.zips,
+        [], // val save_unassigned
+        [], // val save_matches_sig
+        [], // val save_prefetch
+        []  // val save_prefetch_csv
+    )
+    ch_versions = ch_versions.mix(SOURMASH_GATHER.out.versions)
+ 
+    //
+    // MODULE: sourmash compare
+    //
+
+    // the sourmash compare module takes a meta map so that different groups can be specified
+    ch_sketch_for_compare = SOURMASH_SKETCH.out.signatures
+        .collect{ it[1] }
+        .map { 
+            signatures ->
+                def meta = [:]
+                meta.id  = "k21"
+                [ meta, signatures ]
+    }
+    
+    SOURMASH_COMPARE (
+        ch_sketch_for_compare,
+        [],   // path to file list for --from-file
+        true, // save_numpy_matrix
+        true  // save_csv
+    )
+
     //
     // MODULE: MultiQC
     //
@@ -99,6 +155,8 @@ workflow SEQQC {
     ch_multiqc_files = ch_multiqc_files.mix(ch_methods_description.collectFile(name: 'methods_description_mqc.yaml'))
     ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
     ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
+    ch_multiqc_files = ch_multiqc_files.mix(SOURMASH_GATHER.out.result.collect{it[1]}.ifEmpty([]))
+    ch_multiqc_files = ch_multiqc_files.mix(SOURMASH_COMPARE.out.matrix.collect{it[1, 2]}.ifEmpty([]))
 
     MULTIQC (
         ch_multiqc_files.collect(),
