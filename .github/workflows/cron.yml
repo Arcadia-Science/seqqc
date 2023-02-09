@@ -1,4 +1,4 @@
-name: Run Node.js branch_protection script on a schedule
+name: Run seqqc-cron job on a schedule
 
 # Run it 12.05AM UTC every day
 on:
@@ -12,6 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+      - name: Change to the cron directory
+        run: cd cron/
       - name: Install dependencies
         run: npm install
       - name: Build the scripts
@@ -26,4 +28,4 @@ jobs:
           AWS_SOURCE_PREFIX: ${{ secrets.AWS_SOURCE_PREFIX }}
           NOTIFICATION_EMAIL: ${{ secrets.NOTIFICATION_EMAIL }}
           TOWER_URL: ${{ secrets.TOWER_URL }}
-          TOWER_TOKEN: ${{ secrets.TOWER_TOKEN }}
+          TOWER_ACCESS_TOKEN: ${{ secrets.TOWER_ACCESS_TOKEN }}
