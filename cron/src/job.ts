@@ -14,7 +14,7 @@ const { AWS_SOURCE_PREFIX } = process.env;
 const { NOTIFICATION_EMAIL } = process.env;
 
 // Tower constants
-const { TOWER_URL, TOWER_TOKEN } = process.env;
+const { TOWER_URL, TOWER_ACCESS_TOKEN } = process.env;
 
 // AWS SDK clients
 const S3_CLIENT = new S3Client({
@@ -95,7 +95,7 @@ async function launchPipeline(csvKey: string, csvOwnerEmail: string) {
     const client = axios.create({
         baseURL: TOWER_URL,
         headers: {
-            Authorization: `Bearer ${TOWER_TOKEN}`,
+            Authorization: `Bearer ${TOWER_ACCESS_TOKEN}`,
             "Content-Type": "application/json",
         },
     });
