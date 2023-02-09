@@ -22,6 +22,6 @@ jobs:
           workdir: s3://${{ secrets.AWS_S3_BUCKET }}/work/seqqc/work-${{ github.sha }}
           parameters: |
             {
-              "outdir" : "s3://${{ secrets.AWS_S3_BUCKET }}/fulltests/results-${{ github.sha }}/isoseq"
+              "outdir" : "s3://${{ secrets.AWS_S3_BUCKET }}/full-tests/results-${{ github.sha }}/isoseq"
             }
           profiles: test_full_isoseq,aws_tower
