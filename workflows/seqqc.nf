@@ -183,20 +183,12 @@ workflow.onComplete {
         // a local file path (ie you're running this pipeline on an HPC or locally),
         // this will succeed. If it refers to an S3 object, this would fail.
         // When it fails, we can forgo the main body of the email (mostly pipeline metadata)
-        // and try to attach the MultiQC HTML report (which already has some of
-        // the metadata).
-         Here, we create a a temporary file and populate it with the text of the
-
-        // Send email using Nextflow's built-in emailer:
-        // https://www.nextflow.io/docs/latest/mail.html#advanced-mail
-        sendMail (
-            to: email_params.to,
-            subject: email_params.subject,
-            body: email_params.email_html,
-            attach: email_params.mqcFile
-        )
+        // and try make MultiQC HTML (which already has some of the metadata), the
+        // body of our email.
 
         try {
+            // Send email using Nextflow's built-in emailer:
+            // https://www.nextflow.io/docs/latest/mail.html#advanced-mail
             sendMail (
                 to: email_params.to,
                 subject: email_params.subject,
