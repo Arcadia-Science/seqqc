@@ -181,7 +181,7 @@ workflow.onComplete {
             to: email_params.to,
             subject: email_params.subject,
             body: email_params.email_html,
-            attachments: [email_params.mqcFile]
+            attach: email_params.mqcFile
         )
     }
     NfcoreTemplate.summary(workflow, params, log)
