@@ -122,13 +122,13 @@ class NfcoreTemplate {
         }
 
         // Render the HTML template
-        def engine       = new groovy.text.GStringTemplateEngine()
+        def engine        = new groovy.text.GStringTemplateEngine()
         def hf            = new File("$projectDir/assets/email_template.html")
         def html_template = engine.createTemplate(hf).make(email_fields)
         def email_html    = html_template.toString()
 
         // Render the sendmail template
-        def email_params           = [ to: email_address, subject: subject, email_html: email_html, mqcFile: mqc_report ]
+        def email_params  = [ to: email_address, subject: subject, email_html: email_html, mqcFile: mqc_report ]
         return email_params
     }
 

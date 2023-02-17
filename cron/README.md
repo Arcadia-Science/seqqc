@@ -27,6 +27,7 @@ AWS_SOURCE_PREFIX=indir
 
 # Notification constants - optional
 NOTIFICATION_EMAIL=
+FROM_EMAIL=
 
 # Tower constants, see https://help.tower.nf/21.10/pipeline-actions/pipeline-actions/
 TOWER_URL=
