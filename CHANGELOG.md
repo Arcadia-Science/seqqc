@@ -3,13 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v1.0 - February 2023
+## v1.0.0 - February 2023
 
 Initial release of Arcadia-Science/seqqc, created with the [nf-core](https://nf-co.re/) template.
 
 ### `Added`
 
-- Local module to download sourmash GTDB database and human signature
+- Local module to download sourmash contamination database 
 - Workflow to run sourmash gather to detect routine contamination
 - Workflow to run sourmash compare to determine sequence similarity between samples
 - Integration of sourmash outputs into the MultiQC outputs (when run with docker profile only)
