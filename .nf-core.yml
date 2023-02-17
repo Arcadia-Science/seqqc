@@ -3,6 +3,8 @@ lint:
   files_exist:
     - CODE_OF_CONDUCT.md
     - assets/nf-core-seqqc_logo_light.png
+    - assets/email_template.txt
+    - assets/sendmail_template.txt
     - docs/images/nf-core-seqqc_logo_light.png
     - docs/images/nf-core-seqqc_logo_dark.png
     - .github/ISSUE_TEMPLATE/config.yml

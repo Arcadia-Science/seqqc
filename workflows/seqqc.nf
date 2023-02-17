@@ -93,7 +93,7 @@ workflow SEQQC {
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
     )
 
-    // 
+    //
     // MODULE: sourmash sketch
     //
     SOURMASH_SKETCH (
@@ -119,7 +119,7 @@ workflow SEQQC {
         []  // val save_prefetch_csv
     )
     ch_versions = ch_versions.mix(SOURMASH_GATHER.out.versions)
- 
+
     //
     // MODULE: sourmash compare
     //
@@ -127,13 +127,13 @@ workflow SEQQC {
     // the sourmash compare module takes a meta map so that different groups can be specified
     ch_sketch_for_compare = SOURMASH_SKETCH.out.signatures
         .collect{ it[1] }
-        .map { 
+        .map {
             signatures ->
                 def meta = [:]
                 meta.id  = "k21"
                 [ meta, signatures ]
     }
-    
+
     SOURMASH_COMPARE (
         ch_sketch_for_compare,
         [],   // path to file list for --from-file
@@ -175,8 +175,37 @@ workflow SEQQC {
 */
 
 workflow.onComplete {
-    if (params.email || params.email_on_fail) {
-        NfcoreTemplate.email(workflow, params, summary_params, projectDir, log, multiqc_report)
+    if ((params.email || params.email_on_fail) && params.from_email) {
+        def email_params = NfcoreTemplate.get_email_params(workflow, params, summary_params, projectDir, log, multiqc_report)
+
+        // PSA 1: this is a mild hack, because sendMail does not work with S3 URIs.
+        // First, we attempt to send our email regularly. If email_params.mqcFile is
+        // a local file path (ie you're running this pipeline on an HPC or locally),
+        // this will succeed. If it refers to an S3 object, this would fail.
+        // When it fails, we can forgo the main body of the email (mostly pipeline metadata)
+        // and try make MultiQC HTML (which already has some of the metadata), the
+        // body of our email.
+
+        // PSA 2: On Tower, using Fusion mounts could circumvent this issue.
+
+        try {
+            // Send email using Nextflow's built-in emailer:
+            // https://www.nextflow.io/docs/latest/mail.html#advanced-mail
+            sendMail (
+                from: params.from_email,
+                to: email_params.to,
+                subject: email_params.subject,
+                body: email_params.email_html,
+                attach: email_params.mqcFile
+            )
+        } catch (Exception e) {
+            sendMail (
+                from: params.from_email,
+                to: email_params.to,
+                subject: email_params.subject,
+                body: email_params.mqcFile.text
+            )
+        }
     }
     NfcoreTemplate.summary(workflow, params, log)
     if (params.hook_url) {
