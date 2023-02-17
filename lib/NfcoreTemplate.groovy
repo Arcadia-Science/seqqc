@@ -93,6 +93,7 @@ class NfcoreTemplate {
 
         // On success try attach the multiqc report
         def mqc_report = null
+        def max_multiqc_email_size = params.max_multiqc_email_size as nextflow.util.MemoryUnit
         try {
             if (workflow.success) {
                 mqc_report = multiqc_report.getVal()
@@ -101,6 +102,11 @@ class NfcoreTemplate {
                         log.warn "[$workflow.manifest.name] Found multiple reports from process 'MULTIQC', will use only one"
                     }
                     mqc_report = mqc_report[0]
+                }
+
+                if ( mqc_report.size() > max_multiqc_email_size.toBytes() ) {
+                    mqc_report = null
+                    log.warn "[$workflow.manifest.name] Could not attach MultiQC report to summary email due to size"
                 }
             }
         } catch (all) {
@@ -122,9 +128,7 @@ class NfcoreTemplate {
         def email_html    = html_template.toString()
 
         // Render the sendmail template
-        def max_multiqc_email_size = params.max_multiqc_email_size as nextflow.util.MemoryUnit
-        def email_fields           = [ to: email_address, subject: subject, email_html: email_html, projectDir: "$projectDir", mqcFile: mqc_report, mqcMaxSize: max_multiqc_email_size.toBytes() ]
-
+        def email_fields           = [ to: email_address, subject: subject, email_html: email_html, mqcFile: mqc_report ]
         return email_fields
     }
 
