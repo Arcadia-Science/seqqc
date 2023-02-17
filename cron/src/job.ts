@@ -11,7 +11,7 @@ const { AWS_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION } 
 const { AWS_SOURCE_PREFIX } = process.env;
 
 // Notification constants
-const { NOTIFICATION_EMAIL } = process.env;
+const { NOTIFICATION_EMAIL, FROM_EMAIL } = process.env;
 
 // Tower constants
 const { TOWER_URL, TOWER_ACCESS_TOKEN } = process.env;
@@ -89,6 +89,7 @@ async function launchPipeline(csvKey: string, csvOwnerEmail: string) {
             email: combineEmails([NOTIFICATION_EMAIL, csvOwnerEmail]),
             input: `s3://${AWS_BUCKET_NAME}/${csvKey}`,
             outdir: `s3://${AWS_BUCKET_NAME}/outdir/${getOrCreateDirectoryName(csvKey)}`,
+            from_email: FROM_EMAIL,
         },
     };
 

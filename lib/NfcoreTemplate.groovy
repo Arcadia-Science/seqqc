@@ -54,8 +54,7 @@ class NfcoreTemplate {
     //
     // Construct and send completion email
     //
-    public static void email(workflow, params, summary_params, projectDir, log, multiqc_report=[]) {
-
+    public static LinkedHashMap get_email_params(workflow, params, summary_params, projectDir, log, multiqc_report=[]) {
         // Set up the e-mail variables
         def subject = "[$workflow.manifest.name] Successful: $workflow.runName"
         if (!workflow.success) {
@@ -94,6 +93,7 @@ class NfcoreTemplate {
 
         // On success try attach the multiqc report
         def mqc_report = null
+        def max_multiqc_email_size = params.max_multiqc_email_size as nextflow.util.MemoryUnit
         try {
             if (workflow.success) {
                 mqc_report = multiqc_report.getVal()
@@ -102,6 +102,11 @@ class NfcoreTemplate {
                         log.warn "[$workflow.manifest.name] Found multiple reports from process 'MULTIQC', will use only one"
                     }
                     mqc_report = mqc_report[0]
+                }
+
+                if ( mqc_report.size() > max_multiqc_email_size.toBytes() ) {
+                    mqc_report = null
+                    log.warn "[$workflow.manifest.name] Could not attach MultiQC report to summary email due to size"
                 }
             }
         } catch (all) {
@@ -116,52 +121,15 @@ class NfcoreTemplate {
             email_address = params.email_on_fail
         }
 
-        // Render the TXT template
-        def engine       = new groovy.text.GStringTemplateEngine()
-        def tf           = new File("$projectDir/assets/email_template.txt")
-        def txt_template = engine.createTemplate(tf).make(email_fields)
-        def email_txt    = txt_template.toString()
-
         // Render the HTML template
+        def engine        = new groovy.text.GStringTemplateEngine()
         def hf            = new File("$projectDir/assets/email_template.html")
         def html_template = engine.createTemplate(hf).make(email_fields)
         def email_html    = html_template.toString()
 
         // Render the sendmail template
-        def max_multiqc_email_size = params.max_multiqc_email_size as nextflow.util.MemoryUnit
-        def smail_fields           = [ email: email_address, subject: subject, email_txt: email_txt, email_html: email_html, projectDir: "$projectDir", mqcFile: mqc_report, mqcMaxSize: max_multiqc_email_size.toBytes() ]
-        def sf                     = new File("$projectDir/assets/sendmail_template.txt")
-        def sendmail_template      = engine.createTemplate(sf).make(smail_fields)
-        def sendmail_html          = sendmail_template.toString()
-
-        // Send the HTML e-mail
-        Map colors = logColours(params.monochrome_logs)
-        if (email_address) {
-            try {
-                if (params.plaintext_email) { throw GroovyException('Send plaintext e-mail, not HTML') }
-                // Try to send HTML e-mail using sendmail
-                [ 'sendmail', '-t' ].execute() << sendmail_html
-                log.info "-${colors.purple}[$workflow.manifest.name]${colors.green} Sent summary e-mail to $email_address (sendmail)-"
-            } catch (all) {
-                // Catch failures and try with plaintext
-                def mail_cmd = [ 'mail', '-s', subject, '--content-type=text/html', email_address ]
-                if ( mqc_report.size() <= max_multiqc_email_size.toBytes() ) {
-                    mail_cmd += [ '-A', mqc_report ]
-                }
-                mail_cmd.execute() << email_html
-                log.info "-${colors.purple}[$workflow.manifest.name]${colors.green} Sent summary e-mail to $email_address (mail)-"
-            }
-        }
-
-        // Write summary e-mail HTML to a file
-        def output_d = new File("${params.outdir}/pipeline_info/")
-        if (!output_d.exists()) {
-            output_d.mkdirs()
-        }
-        def output_hf = new File(output_d, "pipeline_report.html")
-        output_hf.withWriter { w -> w << email_html }
-        def output_tf = new File(output_d, "pipeline_report.txt")
-        output_tf.withWriter { w -> w << email_txt }
+        def email_params  = [ to: email_address, subject: subject, email_html: email_html, mqcFile: mqc_report ]
+        return email_params
     }
 
     //
