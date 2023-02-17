@@ -176,13 +176,23 @@ workflow SEQQC {
 
 workflow.onComplete {
     if (params.email || params.email_on_fail) {
+        // def email_params = NfcoreTemplate.get_email_params(workflow, params, summary_params, projectDir, log, multiqc_report)
+        // log.info email_params.mqcFile
+        // sendMail (
+        //     to: email_params.to,
+        //     subject: email_params.subject,
+        //     body: email_params.email_html,
+        //     attach: email_params.mqcFile
+        // )
+
         def email_params = NfcoreTemplate.get_email_params(workflow, params, summary_params, projectDir, log, multiqc_report)
-        log.info email_params.mqcFile
+        def attachment = tempFile("multiqc_report.html")
+        attachment.text = file(email_params.mqcFile).text
         sendMail (
             to: email_params.to,
             subject: email_params.subject,
             body: email_params.email_html,
-            attach: email_params.mqcFile
+            attach: attachment
         )
     }
     NfcoreTemplate.summary(workflow, params, log)
