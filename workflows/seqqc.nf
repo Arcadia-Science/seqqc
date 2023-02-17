@@ -178,21 +178,38 @@ workflow.onComplete {
     if (params.email || params.email_on_fail) {
         def email_params = NfcoreTemplate.get_email_params(workflow, params, summary_params, projectDir, log, multiqc_report)
 
-        // Here, we create a a temporary file and populate it with the text of the
-        // multiqc_report. This is technically not needed for handling local files.
-        // But sendMail does not work with S3 URIs and this is a workaround
-        // for downloading the S3 data to a local file and using it as the attachment.
-        def attachment = tempFile("multiqc_report.html")
-        attachment.text = file(email_params.mqcFile).text
-        println attachment
+        // Note: this is a mild hack, because sendMail does not work with S3 URIs.
+        // First, we attempt to send our email regularly. If email_params.mqcFile is
+        // a local file path (ie you're running this pipeline on an HPC or locally),
+        // this will succeed. If it refers to an S3 object, this would fail.
+        // When it fails, we can forgo the main body of the email (mostly pipeline metadata)
+        // and try to attach the MultiQC HTML report (which already has some of
+        // the metadata).
+         Here, we create a a temporary file and populate it with the text of the
+
         // Send email using Nextflow's built-in emailer:
         // https://www.nextflow.io/docs/latest/mail.html#advanced-mail
         sendMail (
             to: email_params.to,
             subject: email_params.subject,
             body: email_params.email_html,
-            attach: attachment
+            attach: email_params.mqcFile
         )
+
+        try {
+            sendMail (
+                to: email_params.to,
+                subject: email_params.subject,
+                body: email_params.email_html,
+                attach: email_params.mqcFile
+            )
+        } catch (Exception e) {
+            sendMail (
+                to: email_params.to,
+                subject: email_params.subject,
+                body: email_params.mqcFile.text
+            )
+        }
     }
     NfcoreTemplate.summary(workflow, params, log)
     if (params.hook_url) {
