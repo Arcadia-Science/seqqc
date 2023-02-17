@@ -177,6 +177,7 @@ workflow SEQQC {
 workflow.onComplete {
     if (params.email || params.email_on_fail) {
         def email_params = NfcoreTemplate.get_email_params(workflow, params, summary_params, projectDir, log, multiqc_report)
+        log.info email_params.mqcFile
         sendMail (
             to: email_params.to,
             subject: email_params.subject,
