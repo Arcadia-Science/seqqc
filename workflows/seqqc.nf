@@ -176,18 +176,17 @@ workflow SEQQC {
 
 workflow.onComplete {
     if (params.email || params.email_on_fail) {
-        // def email_params = NfcoreTemplate.get_email_params(workflow, params, summary_params, projectDir, log, multiqc_report)
-        // log.info email_params.mqcFile
-        // sendMail (
-        //     to: email_params.to,
-        //     subject: email_params.subject,
-        //     body: email_params.email_html,
-        //     attach: email_params.mqcFile
-        // )
-
         def email_params = NfcoreTemplate.get_email_params(workflow, params, summary_params, projectDir, log, multiqc_report)
+
+        // Here, we create a a temporary file and populate it with the text of the
+        // multiqc_report. This is technically not needed for handling local files.
+        // But sendMail does not work with S3 URIs and this is a workaround
+        // for downloading the S3 data to a local file and using it as the attachment.
         def attachment = tempFile("multiqc_report.html")
         attachment.text = file(email_params.mqcFile).text
+        println attachment
+        // Send email using Nextflow's built-in emailer:
+        // https://www.nextflow.io/docs/latest/mail.html#advanced-mail
         sendMail (
             to: email_params.to,
             subject: email_params.subject,
