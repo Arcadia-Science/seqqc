@@ -9,7 +9,7 @@ Initial release of Arcadia-Science/seqqc, created with the [nf-core](https://nf-
 
 ### `Added`
 
-- Local module to download sourmash contamination database 
+- Local module to download sourmash contamination database
 - Workflow to run sourmash gather to detect routine contamination
 - Workflow to run sourmash compare to determine sequence similarity between samples
 - Integration of sourmash outputs into the MultiQC outputs (when run with docker profile only)
