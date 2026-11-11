@@ -7,8 +7,8 @@
         "runJob": "node dist/job.js"
     },
     "dependencies": {
-        "@aws-sdk/client-iam": "^3.266.1",
-        "@aws-sdk/client-s3": "^3.204.0",
+        "@aws-sdk/client-iam": "^3.1166.0",
+        "@aws-sdk/client-s3": "^3.1166.0",
         "@types/node": "^18.11.9",
         "axios": "^0.21.1",
         "dotenv": "^16.0.1",
